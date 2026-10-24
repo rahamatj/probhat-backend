@@ -2,6 +2,7 @@ package com.rahamat.probhat_backend.services.implementations;
 
 import com.rahamat.probhat_backend.dtos.CategoryDto;
 import com.rahamat.probhat_backend.entities.Category;
+import com.rahamat.probhat_backend.exceptions.ResourceNotFoundException;
 import com.rahamat.probhat_backend.mappers.CategoryMapper;
 import com.rahamat.probhat_backend.repositories.CategoryRepositoryInterface;
 import com.rahamat.probhat_backend.services.interfaces.CategoryServiceInterface;
@@ -29,7 +30,7 @@ public class CategoryService implements CategoryServiceInterface {
 
     @Override
     public CategoryDto getCategoryById(Long id) {
-        Category category = categoryRepository.findById(id).orElseThrow(() -> new RuntimeException("Category with id " + id + " not found"));
+        Category category = categoryRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Category with id " + id + " not found"));
         return CategoryMapper.toCategoryDto(category);
     }
 
@@ -42,7 +43,7 @@ public class CategoryService implements CategoryServiceInterface {
 
     @Override
     public CategoryDto updateCategory(Long id, CategoryDto categoryDto) {
-        Category category = categoryRepository.findById(id).orElseThrow(() -> new RuntimeException("Category with id " + id + " not found"));
+        Category category = categoryRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Category with id " + id + " not found"));
         category.setName(categoryDto.getName());
         category.setNameBn(categoryDto.getNameBn());
         category.setSlug(categoryDto.getSlug());
@@ -52,7 +53,7 @@ public class CategoryService implements CategoryServiceInterface {
 
     @Override
     public Map<String, String> deleteCategory(Long id) {
-        Category category = categoryRepository.findById(id).orElseThrow(() -> new RuntimeException("Category with id " + id + " not found"));
+        Category category = categoryRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Category with id " + id + " not found"));
         categoryRepository.delete(category);
         Map<String, String> response = new HashMap<>();
         response.put("message", "Category with id " + id + " deleted successfully");
