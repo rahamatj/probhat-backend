@@ -15,6 +15,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/categories")
 @AllArgsConstructor
+@CrossOrigin(origins = "http://localhost:5173")
 public class CategoryController {
 
     private final CategoryServiceInterface categoryService;
